@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/urlshortener}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  flyway:
+    # core-api owns the schema (its Flyway migrations); this service only reads and writes rows.
+    enabled: false
+
+server:
+  port: 8081
+
+app:
+  consumer:
+    threads: 2
+    batch-size: 200     # events per transaction
+    max-wait-ms: 1000   # ...or flush after this long, whichever comes first
+
+aws:
+  region: ${AWS_REGION:us-east-1}
+  sqs:
+    click-events-queue-url: ${SQS_QUEUE_URL}
+  endpoint-url: ${AWS_ENDPOINT_URL:}
+
+logging:
+  level:
+    com.urlshortener.analytics: INFO

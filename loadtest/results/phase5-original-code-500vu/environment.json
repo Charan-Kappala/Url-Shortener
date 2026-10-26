@@ -1,0 +1,9 @@
+{
+  "commit": "8d86b2e",
+  "cpu": "Apple M5",
+  "host_cores": "10",
+  "host_mem_gb": "16",
+  "os": "macOS 27.0.1",
+  "docker": "29.9.2, 10 CPUs, 8319504384 bytes RAM for containers",
+  "note": "k6, core-api, Postgres and Redis all run as containers on this one machine"
+}

@@ -1,0 +1,30 @@
+name: CI
+
+# Runs both services' test suites on every push and pull request.
+# The tests start their own Postgres, Redis and LocalStack containers through Testcontainers,
+# using the Docker daemon that GitHub's Ubuntu runners provide.
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: Test ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module: [core-api, analytics-consumer]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+
+      - name: Run tests
+        working-directory: ${{ matrix.module }}
+        run: mvn -B -ntp verify

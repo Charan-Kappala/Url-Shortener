@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/urlshortener}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    # No session (and no pooled connection) held open for the whole web request.
+    open-in-view: false
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      timeout: 2000ms
+
+server:
+  # Trust X-Forwarded-For from private-network proxies (e.g. a load balancer) so rate limits key on the real client.
+  forward-headers-strategy: native
+
+app:
+  base-url: ${BASE_URL:http://localhost:8080}
+  admin-api-key: ${ADMIN_API_KEY:}
+  default-expiry-days: 90
+  cache:
+    enabled: ${CACHE_ENABLED:true}
+  clicks:
+    # Bounded hand-off between redirects and the SQS sender threads; when full, clicks are dropped (and counted).
+    buffer-capacity: 10000
+    sender-threads: 2
+  rate-limit:
+    create-per-minute: ${RATE_LIMIT_CREATE_PER_MINUTE:10}
+    redirect-per-minute: ${RATE_LIMIT_REDIRECT_PER_MINUTE:100}
+
+aws:
+  region: ${AWS_REGION:us-east-1}
+  sqs:
+    click-events-queue-url: ${SQS_QUEUE_URL:}
+  # Optional LocalStack override for local testing
+  endpoint-url: ${AWS_ENDPOINT_URL:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+

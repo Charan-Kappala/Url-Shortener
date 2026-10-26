@@ -1,0 +1,10 @@
+.DS_Store
+target/
+**/target/
+node_modules/
+**/node_modules/
+dashboard/dist/
+dist/
+load-test-results.json
+.vscode/
+.idea/

@@ -1,0 +1,46 @@
+{
+  "cache": "on",
+  "k6": {
+    "vus": 500,
+    "hold": "2m",
+    "links": 10000,
+    "zipf_s": 1,
+    "miss_ratio": 0.02,
+    "requests": 239808,
+    "rps": 1990.6940812567766,
+    "latency_ms": {
+      "avg": 0.8767169909052092,
+      "med": 0.587458,
+      "p90": 0.92175,
+      "p95": 1.0957209499999991,
+      "p99": 4.770791559999996,
+      "max": 110.476791
+    },
+    "unexpected_status_rate": 0
+  },
+  "postgres": {
+    "url_lookup_selects": 9447,
+    "click_inserts": 234914,
+    "click_count_updates": 234914,
+    "total_statements": 479275,
+    "top": [
+      {
+        "calls": 234914,
+        "query": "update url_mappings set click_count=(click_count+$2) where short_code=$1"
+      },
+      {
+        "calls": 234914,
+        "query": "insert into click_events (clicked_at,country_code,device_type,referer,short_code,user_agent) values ($1,$2,$3,$4,$5,$6) "
+      },
+      {
+        "calls": 9447,
+        "query": "select um1_0.id,um1_0.click_count,um1_0.created_at,um1_0.created_by_ip,um1_0.expires_at,um1_0.is_active,um1_0.original_u"
+      }
+    ]
+  },
+  "cache_hits": 230361.0,
+  "cache_misses": 9447.0,
+  "cache_hit_rate": 0.9606059847878302,
+  "clicks_recorded": 234914,
+  "click_write_drain_seconds": 3
+}
